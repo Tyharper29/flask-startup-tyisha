@@ -1,6 +1,12 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
+
+
+# render templates
+@app.route("/honorform/", methods=["GET"])
+def honorform():
+    return render_template("honorform.html")
 
 
 # Home route (GET request)
@@ -19,7 +25,7 @@ def greet():
 # POST route with JSON body
 @app.route("/echo", methods=["POST"])
 def echo():
-    data = request.get_json()
+    data = {key: request.form.getlist(key) for key in request.form.keys()}
     return jsonify(data)
 
 
